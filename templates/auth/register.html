@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block navbar %}
+<div class="register">
+    <ul class='navbar-nav'>
+        <li>
+            <a href="/login" class="nav-link text-dark">Login</a>
+        </li>
+    </ul>
+</div>
+{% endblock %}
+
+<h1>{% block title %}Register{% endblock %}</h1>
+
+{% block content %}
+<!-- <img class="mb-4" src="/docs/5.1/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57"> -->
+<div class="
+    d-flex
+    flex-column
+    w-100
+    h-100
+    justify-content-center
+    align-items-center
+  ">
+    <div class="col-md-5 login-form">
+        <h3 class="text-center">Register your account</h3>
+        <form class="px-5 py-4" action="/register" method="post">
+            {%include 'include/message.html' %}
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Username" name="username" id="username" required>
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" placeholder="Your Password" name="password" id="password"
+                    required>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-dark rounded-pill">Register</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

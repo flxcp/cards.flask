@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+
+{% block title %}Cards{% endblock %}
+
+{% block navbar %}
+{%include 'include/navuser.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="container d-flex flex-column">
+    <div class="reviewButton pt-4 d-flex justify-content-between pt-4">
+        <div class="d-flex justify-content-center" style="height: 2.4rem;">
+            <h4>{{ deck_name }}</h4>
+        </div>
+        <div class="reviewButton d-flex justify-content-end">
+            <a class="btn btn-dark mx-2 rounded-pill" href="/review/deck/{{ deck_id }}/reset" role="button">Reset
+                Deck</a>
+            <a class="btn btn-dark mx-2 rounded-pill" href="/review/deck/{{ deck_id }}" role="button">Review Deck</a>
+        </div>
+    </div>
+    <div class="d-flex justify-content-center flex-row flex-wrap pt-3 pb-5">
+        <div class="cardCards px-2 py-2">
+            <div class="card rounded-3 justify-content-center align-items-center bg-transparent border-0 h-100"
+                style="width: 22rem;">
+                <button type="button" class="btn shadow-none" data-bs-toggle="modal" data-bs-target="#newCard"><i
+                        class="bi bi-plus-square-fill" style="font-size: 4rem;"></i>
+                </button>
+                <div class="modal fade" id="newCard" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <div class='d-flex justify-content-between'>
+                                    <h5 class="modal-title" id="exampleModalLabel">New Card</h5>
+                                    <button type="button" class="btn shadow-none py-1" data-bs-dismiss="modal"
+                                        aria-label="Close"><i class="bi bi-x-circle-fill"></i></button>
+                                </div>
+                                <div class="newCardForm mx-3">
+                                    <form action="/api/card" method="post" id="new-card">
+                                        <input type="hidden" name="deck_id" id="deck_id" value="{{ deck_id }}">
+                                        <div class="mb-3">
+                                            <label for="question" class="col-form-label">Question</label>
+                                            <input type="text" class="form-control" name="question" id="question">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="answer" class="col-form-label">Answer</label>
+                                            <input type="text" class="form-control" name="answer" id="answer">
+                                        </div>
+                                        <div class='d-flex justify-content-end'>
+                                            <button type="submit" class="btn btn-success">Create card</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Card Card Rotaing Unit -->
+        {% for card in cards %}
+        <div class="cardCards px-2 py-2">
+            <div class="card shadow" style="width: 22rem; height: 14rem;">
+                <div class="card-body">
+                    <div class="cardStats d-flex justify-content-between">
+                        {% if card[3] == 1 %}
+                        <h6 class="card-subtitle"><span class="badge badge-danger">Hard</span></h6>
+                        {% elif card[3] == 2 %}
+                        <h6 class="card-subtitle"><span class="badge badge-warning">Medium</span></h6>
+                        {% elif card[3] == 3 %}
+                        <h6 class="card-subtitle"><span class="badge badge-success">Easy</span></h6>
+                        {% else %}
+                        <h6 class="card-subtitle"><span class="badge badge-primary">New</span></h6>
+                        {% endif %}
+                    </div>
+                    <div class="QandA  d-flex justify-content-center align-items-center flex-column h-75 mb-0">
+                        <h1 class="card-title">{{ card[1] }}</h1>
+                        <h6 class="card-subtitle text-muted text-center text-uppercase">{{ card[2] }}</h6>
+                    </div>
+                    <div class="cardButtons d-flex justify-content-end pt-2">
+                        <a href="" class="btn shadow-none py-0 px-1" data-bs-toggle="modal"
+                            data-bs-target="#editCard{{ card[0] }}"><span class="badge badge-warning">Edit</span></a>
+                        <div class="modal fade" id="editCard{{ card[0] }}" tabindex=" -1"
+                            aria-labelledby="editCard{{ card[0] }}" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <div class='d-flex justify-content-between'>
+                                            <h5 class="modal-title" id="exampleModalLabel">Edit Card</h5>
+                                            <button type="button" class="btn shadow-none py-1" data-bs-dismiss="modal"
+                                                aria-label="Close"><i class="bi bi-x-circle-fill"></i></button>
+                                        </div>
+                                        <div class="editCardForm mx-3">
+                                            <form id="edit-card" action="/api/card/{{ card[0] }}" method="post">
+                                                <input type="hidden" name="deck_id" id="deck_id" value="{{ deck_id }}">
+                                                <div class="mb-3">
+                                                    <label for="question" class="col-form-label">Question</label>
+                                                    <input type="text" class="form-control" name="question"
+                                                        id="question" value="{{ card[1] }}">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="answer" class="col-form-label">Answer</label>
+                                                    <input type="text" class="form-control" name="answer" id="answer"
+                                                        value="{{ card[2] }}">
+                                                </div>
+                                                <div class='d-flex justify-content-end'>
+                                                    <button type="submit" class="btn btn-success">Save changes</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="" class="btn py-0 pl-1 shadow-none pr-0" data-bs-toggle="modal"
+                            data-bs-target="#deleteCard{{ card[0] }}"><span class="badge badge-danger">Delete</span></a>
+                        <div class="modal fade" id="deleteCard{{ card[0] }}" tabindex="-1"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <div class='d-flex justify-content-end'>
+                                            <button type="button" class="btn shadow-none py-1" data-bs-dismiss="modal"
+                                                aria-label="Close"><i class="bi bi-x-circle-fill"></i></button>
+                                        </div>
+                                        <div class='d-flex flex-column align-items-center justify-content-center py-5'>
+                                            <i class="bi bi-x-square-fill" style="font-size: 4rem; color: red;"></i>
+                                            <h5>Are You Sure?</h5>
+                                        </div>
+                                        <div class='d-flex justify-content-end'>
+                                            <button type="button" class="btn btn-success mx-2"
+                                                data-bs-dismiss="modal">No</button>
+                                            <a href="/api/card/{{ card[0] }}" id="delete-card" role="button"
+                                                class="btn btn-danger mx-2">Yes</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        <!-- Card Rotaing Unit End -->
+    </div>
+</div>
+{% endblock %}
+
+{% block custom_file %}
+<script src="{{ url_for('static', filename='js/cards.script.js') }}"></script>
+{% endblock %}

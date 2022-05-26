@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}{{ e.name }}{% endblock %}
+
+{% block navbar %}
+{% if current_user.is_authenticated %}
+{%include 'include/navuser.html' %}
+{% else %}
+<div class="register">
+    <ul class='navbar-nav'>
+        <li>
+            <a href="/login" class="nav-link text-dark">Login</a>
+        </li>
+        <li>
+            <a href="/register" class="nav-link text-dark">Register</a>
+        </li>
+    </ul>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="errorpage d-flex justify-content-center align-items-center h-75">
+    <div class="d-flex flex-column align-items-center">
+        <h1 class="font-weight-bold" style="font-size: 90px;">{{ e.code }}</h1>
+        <h4>{{ e.name }}</h4>
+        <h6 class="text-muted my-2 text-center text-wrap" style="width: 40rem;">{{ e.description }}</h6>
+    </div>
+</div>
+
+{% endblock %}

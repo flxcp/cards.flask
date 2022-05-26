@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block navbar %}
+{%include 'include/navuser.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="container d-flex justify-content-start flex-column py-4">
+    <div class="todayStats pb-5">
+        <p class="h4 pl-1 pt-5">Today</p>
+        <div class="todayStatsRow d-flex">
+            <div class="card flex-fill mr-3 shadow" style="border-radius: .5rem;">
+                <div class="card-body py-3 d-flex justify-content-between align-items-center">
+                    <div class="nums">
+                        <div class="col">
+                            <p class="text-uppercase text-muted mb-2 fw-bold"
+                                style="font-size: .725rem; color: #95aac9;">Easy</p>
+                            <span class="h1 font-weight-bold mb-0">{{ easy }}</span>
+                        </div>
+                    </div>
+                    <div class="iconsStats d-flex flex-column">
+                        <i class="bi bi-{{'arrow-up' if easy_change > 0 else 'arrow-down' if easy_change < 0 else 'dash'}}-circle-fill"
+                            style="font-size: 2rem; color: {{'green' if easy_change > 0 else 'red' if easy_change < 0 else '#ffc107'}};"></i>
+                        <div class="perStats">
+                            <span
+                                class="text-{{'success' if easy_change > 0 else 'danger' if easy_change < 0 else 'warning'}} font-weight-bold">{{
+                                easy_change }}</span>
+                            <span
+                                class="text-{{'success' if easy_change > 0 else 'danger' if easy_change < 0 else 'warning'}} font-weight-bold">%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card flex-fill mr-3 shadow" style="border-radius: .5rem;">
+                <div class="card-body py-3 d-flex justify-content-between align-items-center">
+                    <div class="nums">
+                        <div class="col">
+                            <p class="text-uppercase text-muted mb-2 fw-bold"
+                                style="font-size: .725rem; color: #95aac9;">Medium</p>
+                            <span class="h1 font-weight-bold mb-0">{{ medium }}</span>
+                        </div>
+                    </div>
+                    <div class="iconsStats d-flex flex-column">
+                        <i class="bi bi-{{'arrow-up' if medium_change > 0 else 'arrow-down' if medium_change < 0 else 'dash'}}-circle-fill"
+                            style="font-size: 2rem; color: {{'green' if medium_change > 0 else 'red' if medium_change < 0 else '#ffc107'}};"></i>
+                        <div class="perStats">
+                            <span
+                                class="text-{{'success' if medium_change > 0 else 'danger' if medium_change < 0 else 'warning'}} font-weight-bold">{{
+                                medium_change }}</span>
+                            <span
+                                class="text-{{'success' if medium_change > 0 else 'danger' if medium_change < 0 else 'warning'}} font-weight-bold">%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card flex-fill mr-3 shadow" style="border-radius: .5rem;">
+                <div class="card-body py-3 d-flex justify-content-between align-items-center">
+                    <div class="nums">
+                        <div class="col">
+                            <p class="text-uppercase text-muted mb-2 fw-bold"
+                                style="font-size: .725rem; color: #95aac9;">Hard</p>
+                            <span class="h1 font-weight-bold mb-0">{{ hard }}</span>
+                        </div>
+                    </div>
+                    <div class="iconsStats d-flex flex-column">
+                        <i class="bi bi-{{'arrow-up' if hard_change > 0 else 'arrow-down' if hard_change < 0 else 'dash'}}-circle-fill"
+                            style="font-size: 2rem; color: {{'green' if hard_change > 0 else 'red' if hard_change < 0 else '#ffc107'}};"></i>
+                        <div class="perStats">
+                            <span
+                                class="text-{{'success' if hard_change > 0 else 'danger' if hard_change < 0 else 'warning'}} font-weight-bold">{{
+                                hard_change }}</span>
+                            <span
+                                class="text-{{'success' if hard_change > 0 else 'danger' if hard_change < 0 else 'warning'}} font-weight-bold">%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card flex-fill mr-3 shadow" style="border-radius: .5rem;">
+                <div class="card-body py-3 d-flex justify-content-between align-items-center">
+                    <div class="nums">
+                        <div class="col">
+                            <p class="text-uppercase text-muted mb-2 fw-bold"
+                                style="font-size: .725rem; color: #95aac9;">Score</p>
+                            <span class="h1 font-weight-bold mb-0">{{ total_score }}</span>
+                        </div>
+                    </div>
+                    <div class="iconsStats d-flex flex-column">
+                        <i class="bi bi-{{'arrow-up' if total_score_change > 0 else 'arrow-down' if total_score_change < 0 else 'dash'}}-circle-fill"
+                            style="font-size: 2rem; color: {{'green' if total_score_change > 0 else 'red' if total_score_change < 0 else '#ffc107'}};"></i>
+                        <div class="perStats">
+                            <span
+                                class="text-{{'success' if total_score_change > 0 else 'danger' if total_score_change < 0 else 'warning'}} font-weight-bold">{{
+                                total_score_change }}</span>
+                            <span
+                                class="text-{{'success' if total_score_change > 0 else 'danger' if total_score_change < 0 else 'warning'}} font-weight-bold">%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if decks %}
+    <div class=" dashCards py-5 d-flex justify-content-start flex-row">
+        <div class="dashContinue flex-fill pr-4">
+            <p class="h4 pl-1">Continue Deck</p>
+            <div class="continueCards d-flex justify-content-start" style="height: 15rem;">
+                <!-- Reapeating Card Row -->
+                {% for deck in decks %}
+                <div class="cardsreview px-3">
+                    <a href="deck/{{ deck[0] }}/cards" class="text-dark text-decoration-none">
+                        <div class="card mw-auto shadow h-100" style="min-width: 13rem;">
+                            <div class="card-body">
+                                <div class="status d-flex justify-content-center">
+                                    <div class="stack">
+                                        <i class="bi bi-stack pr-1"></i>
+                                        <span>{{ deck[2] }}</span>
+                                        <span>/</span>
+                                        <span>{{ deck[3] }}</span>
+                                    </div>
+                                </div>
+                                <h1 class="card-title d-flex justify-content-center align-items-center h-75">{{ deck[1]
+                                    }}
+                                </h1>
+                                <div class="status d-flex justify-content-center">
+                                    <span class="badge bg-warning text-dark">{{ deck[4] }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
+                <!-- Cards End -->
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

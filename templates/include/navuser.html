@@ -1,0 +1,14 @@
+<div class="dropdown show">
+    <button type="button" class="btn shadow-none" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <img class="avatar avatar-16 bg-light rounded-circle p-1" src="https://gradient-avatar.glitch.me/{{ current_user.username }}"
+            height=40px>
+        <span class="sr-only">Toggle Dropdown</span>
+    </button>
+    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+        <button class="dropdown-item" type="button">
+            <p class="font-weight-bold my-0">@{{ current_user.username }}</p>
+        </button>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="/logout">Logout</a>
+    </div>
+</div>

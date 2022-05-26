@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% block title %}Decks{% endblock %}
+
+{% block navbar %}
+{%include 'include/navuser.html' %}
+{% endblock %}
+
+
+{% block content %}
+<div class="container d-flex justify-content-center  flex-row flex-wrap py-5">
+    <div class="deckCards px-2 py-2">
+        <div class="card rounded-3 justify-content-center align-items-center bg-transparent border-0 h-100"
+            style="width: 22rem;">
+            <button type="button" class="btn shadow-none" data-bs-toggle="modal" data-bs-target="#newDeck"><i
+                    class="bi bi-plus-square-fill" style="font-size: 4rem;"></i>
+            </button>
+            <div class="modal fade" id="newDeck" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class='d-flex justify-content-between'>
+                                <h5 class="modal-title" id="exampleModalLabel">New Deck</h5>
+                                <button type="button" class="btn shadow-none py-1" data-bs-dismiss="modal"
+                                    aria-label="Close"><i class="bi bi-x-circle-fill"></i></button>
+                            </div>
+                            <div class="newCardForm mx-3">
+                                <form action="/api/deck" method="post" id="new-deck">
+                                    <div class="mb-3">
+                                        <label for="name" class="col-form-label">Name</label>
+                                        <input type="text" class="form-control" name="name" id="name">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="description" class="col-form-label">Description</label>
+                                        <input type="text" class="form-control" name="description" id="description">
+                                    </div>
+                                    <div class='d-flex justify-content-end'>
+                                        <button type="submit" class="btn btn-success">Create Deck</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Deck Card Rotaing Unit -->
+    {% for deck in decks %}
+    <div class="deckCards px-2 py-2">
+        <a href="deck/{{ deck[0] }}/cards" class="text-dark text-decoration-none">
+            <div class="card shadow" style="width: 22rem; height: 14rem;">
+                <div class="card-body">
+                    <div class="cardStats d-flex justify-content-between">
+                        <div class="cardStatsBadge d-flex justify-content-start">
+                            {% if deck[3] %}
+                            <h6 class="card-subtitle mt-0"><span class="badge badge-success">Completed</span></h6>
+                            {% else %}
+                            <h6 class="card-subtitle mt-0"><span class="badge badge-danger">Incomplete</span></h6>
+                            {% endif %}
+                            {% if deck[6] %}
+                            <h6 class="card-subtitle mt-0 ml-2"><span class="badge badge-info">{{ deck[6] }}</span>
+                            </h6>
+                            {% endif %}
+                            <h6 class="card-subtitle mt-0 ml-2"><span class="badge badge-primary">{{ deck[5] }}</span>
+                            </h6>
+                        </div>
+                        <div class="status">
+                            <div class="stack">
+                                <i class="bi bi-stack pr-1"></i>
+                                <span>{{ deck[4] }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <h1 class="card-title d-flex justify-content-center align-items-center h-75 mb-0">{{ deck[1] }}</h1>
+                    <div class="deckButtons d-flex justify-content-end border-0">
+                        <a class="btn shadow-none py-0 px-1" href="/review/deck/{{ deck[0] }}"><span
+                                class="badge badge-dark">Review Deck</span></a>
+                        <a href="" class="btn shadow-none py-0 px-1" data-bs-toggle="modal"
+                            data-bs-target="#editDeck{{ deck[0] }}"><span class="badge badge-warning">Edit</span></a>
+                        <div class="modal fade" id="editDeck{{ deck[0] }}" tabindex=" -1"
+                            aria-labelledby="editDeck{{ deck[0] }}" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <div class='d-flex justify-content-between'>
+                                            <h5 class="modal-title" id="exampleModalLabel">Edit Deck</h5>
+                                            <button type="button" class="btn shadow-none py-1" data-bs-dismiss="modal"
+                                                aria-label="Close"><i class="bi bi-x-circle-fill"></i></button>
+                                        </div>
+                                        <div class="editCardForm mx-3">
+                                            <form id="edit-deck" action="/api/deck/{{ deck[0] }}" method="post">
+                                                <div class="mb-3">
+                                                    <label for="name" class="col-form-label">Name</label>
+                                                    <input type="text" class="form-control" name="name" id="name"
+                                                        value="{{ deck[1] }}">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="description" class="col-form-label">Description</label>
+                                                    <input type="text" class="form-control" name="description"
+                                                        id="description" value="{{ deck[2] }}">
+                                                </div>
+                                                <div class='d-flex justify-content-end'>
+                                                    <button type="submit" class="btn btn-success">Save changes</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="" class="btn py-0 pl-1 shadow-none pr-0" data-bs-toggle="modal"
+                            data-bs-target="#deleteDeck{{ deck[0] }}"><span class="badge badge-danger">Delete</span></a>
+                        <div class="modal fade" id="deleteDeck{{ deck[0] }}" tabindex="-1"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <div class='d-flex justify-content-end'>
+                                            <!-- <h5 class="modal-title" id="exampleModalLabel">Delete Deck</h5> -->
+                                            <button type="button" class="btn shadow-none py-1" data-bs-dismiss="modal"
+                                                aria-label="Close"><i class="bi bi-x-circle-fill"></i></button>
+                                        </div>
+                                        <div class='d-flex flex-column align-items-center justify-content-center py-5'>
+                                            <i class="bi bi-x-square-fill" style="font-size: 4rem; color: red;"></i>
+                                            <h5>Are You Sure?</h5>
+                                        </div>
+                                        <div class='d-flex justify-content-end'>
+                                            <button type="button" class="btn btn-success mx-2"
+                                                data-bs-dismiss="modal">No</button>
+                                            <a href="api/deck/{{ deck[0] }}" id="delete-deck" role="button"
+                                                class="btn btn-danger mx-2">Yes</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+    {% endfor %}
+    <!-- Deck Card Rotaing Unit End -->
+</div>
+{% endblock %}
+
+{% block custom_file %}
+<script src="{{ url_for('static', filename='js/deck.script.js') }}"></script>
+{% endblock %}

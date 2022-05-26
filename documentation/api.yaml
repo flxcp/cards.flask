@@ -1,0 +1,495 @@
+openapi: "3.0.2"
+info:
+  title: Cards API
+  version: "1.0"
+  description: API For Morden Application Development Final Project
+servers:
+  - url: http://127.0.0.1:5000/
+paths:
+  /api/card/{card_id}:
+    description: Url to create, read, update and delete the card resource.
+    get:
+      description: Operation to read card resource
+      parameters:
+        - in: path
+          name: card_id
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        "200":
+          description: Request Successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  card_id:
+                    type: integer
+                    example: 1
+                  deck_id:
+                    type: integer
+                    example: 1
+                  question:
+                    type: string
+                    example: <br/>
+                  answer:
+                    type: string
+                    example: Single line Break
+                  response:
+                    type: integer
+                    example: 1
+        "500":
+          description: Internal server error
+        "404":
+          description: Card not found
+
+    put:
+      description: Operation to update the card resource
+      parameters:
+        - in: path
+          name: card_id
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                deck_id:
+                  type: integer
+                  example: 1
+                question:
+                  type: string
+                  example: <br />
+                answer:
+                  type: string
+                  example: Single Line Break
+                response:
+                  type: integer
+                  example: 2
+
+      responses:
+        "200":
+          description: Successfully updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  card_id:
+                    type: integer
+                    example: 1
+                  deck_id:
+                    type: integer
+                    example: 1
+                  question:
+                    type: string
+                    example: <br />
+                  answer:
+                    type: string
+                    example: Single Line Break
+                  response:
+                    type: integer
+                    example: 2
+        "404":
+          description: Card not found
+        "500":
+          description: Internal Server Error
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_code:
+                    type: string
+                  error_message:
+                    type: string
+    delete:
+      description: Operation to delete the card resource
+      parameters:
+        - in: path
+          name: card_id
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        "200":
+          description: Successfully Deleted
+        "500":
+          description: Internal Server Error
+        "404":
+          description: Card not found
+
+  /api/card:
+    description: Url to create Card resource
+    post:
+      description: Operation to create the cardresource
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                deck_id:
+                  type: integer
+                  example: 1
+                question:
+                  type: string
+                  example: <br/>
+                answer:
+                  type: string
+                  example: Single line Break
+                response:
+                  type: integer
+                  example: 0
+      responses:
+        "201":
+          description: Successfully Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  card_id:
+                    type: integer
+                    example: 1
+                  deck_id:
+                    type: integer
+                    example: 1
+                  question:
+                    type: string
+                    example: <br/>
+                  answer:
+                    type: string
+                    example: Single line Break
+                  response:
+                    type: integer
+                    example: 0
+        "409":
+          description: Card already exist
+        "500":
+          description: Internal Server Error
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_code:
+                    type: string
+                  error_message:
+                    type: string
+
+  /api/deck/{deck_id}:
+    description: Url to read, update and delete the deck resource.
+    get:
+      description: Operation to read deck resource
+      parameters:
+        - in: path
+          name: deck_id
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        "200":
+          description: Request Successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deck_id:
+                    type: integer
+                    example: 1
+                  username:
+                    type: string
+                    example: admin
+                  name:
+                    type: string
+                    example: HTML
+                  description:
+                    type: string
+                    example: HTML Tags Deck
+                  status:
+                    type: integer
+                    example: 0
+                  date:
+                    type: string
+                    format: date-time
+                    example: 2017-07-21T17:32:28Z
+        "500":
+          description: Internal server error
+        "404":
+          description: Deck not found
+
+    put:
+      description: Operation to update the deck resource
+      parameters:
+        - in: path
+          name: deck_id
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: admin
+                name:
+                  type: string
+                  example: HTML
+                description:
+                  type: string
+                  example: HTML Tags Deck
+                status:
+                  type: integer
+                  example: 1
+                date:
+                  type: string
+                  format: date-time
+                  example: 2017-07-21T17:32:28Z
+
+      responses:
+        "200":
+          description: Successfully updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deck_id:
+                    type: integer
+                    example: 1
+                  username:
+                    type: string
+                    example: admin
+                  name:
+                    type: string
+                    example: HTML
+                  description:
+                    type: string
+                    example: HTML Tags Deck
+                  status:
+                    type: integer
+                    example: 1
+                  date:
+                    type: string
+                    format: date-time
+                    example: 2017-07-21T17:32:28Z
+        "404":
+          description: Deck not found
+        "500":
+          description: Internal Server Error
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_code:
+                    type: string
+                  error_message:
+                    type: string
+    delete:
+      description: Operation to delete the deck resource
+      parameters:
+        - in: path
+          name: deck_id
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        "200":
+          description: Successfully Deleted
+        "500":
+          description: Internal Server Error
+        "404":
+          description: Deck not found
+
+  /api/deck:
+    description: Url to create User Deck resource
+    post:
+      description: Operation to create the Deck resource
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: admin
+                name:
+                  type: string
+                  example: HTML
+                description:
+                  type: string
+                  example: HTML Tags Deck
+                status:
+                  type: integer
+                  example: 0
+
+      responses:
+        "201":
+          description: Successfully Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deck_id:
+                    type: integer
+                    example: 1
+                  username:
+                    type: string
+                    example: admin
+                  name:
+                    type: string
+                    example: HTML
+                  description:
+                    type: string
+                    example: HTML Tags Deck
+                  status:
+                    type: integer
+                    example: 0
+                  date:
+                    type: string
+                    format: date-time
+                    example: 2017-07-21T17:32:28Z
+        "409":
+          description: Deck already exist
+        "500":
+          description: Internal Server Error
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_code:
+                    type: string
+                  error_message:
+                    type: string
+
+  /api/deck/{deck_id}/score:
+    description: Url to read deck score resource.
+    get:
+      description: Operation to read deck score resource.
+      parameters:
+        - in: path
+          name: deck_id
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        "200":
+          description: Request Successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deck_id:
+                    type: integer
+                    example: 1
+                  score:
+                    type: integer
+                    example: 99
+        "500":
+          description: Internal server error
+        "404":
+          description: Deck not found
+
+  /api/user/{user_id}/score:
+    description: Url to read user score resource.
+    get:
+      description: Operation to read user score resource.
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        "200":
+          description: Request Successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  total_score:
+                    type: integer
+                    example: 99
+        "500":
+          description: Internal server error
+        "404":
+          description: User not found
+
+  /api/card/{card_id}/res/{response}:
+    description: Url to update card response resource.
+    put:
+      description: Operation to update card response resource.
+      parameters:
+        - in: path
+          name: card_id
+          required: true
+          schema:
+            type: integer
+            example: 1
+        - in: path
+          name: response
+          required: true
+          schema:
+            type: integer
+            example: 3
+      responses:
+        "200":
+          description: Request Successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  card_id:
+                    type: integer
+                    example: 1
+                  deck_id:
+                    type: integer
+                    example: 1
+                  question:
+                    type: string
+                    example: <br/>
+                  answer:
+                    type: string
+                    example: Single line Break
+                  response:
+                    type: integer
+                    example: 1
+        "500":
+          description: Internal server error
+        "404":
+          description: Card not found

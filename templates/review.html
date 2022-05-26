@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}Review{% endblock %}
+
+{% block navbar %}
+{%include 'include/navuser.html' %}
+{% endblock %}
+
+{% block content %}
+
+<div class="container h-100">
+    <div class="d-flex justify-content-between py-3 h-25">
+        <div class="reviewButton d-flex justify-content-start" style="height: 2.4rem;">
+            <a class="btn btn-dark rounded-pill" href="/deck/{{ deck_id }}/cards" role="button">View Deck</a>
+        </div>
+        {% if cards %}
+        <div class="d-flex justify-content-center" style="height: 2.4rem;">
+            <h4>{{ deck_name }}</h4>
+        </div>
+        {% endif %}
+        <div class="status d-flex justify-content-end">
+            <div class="stack">
+                <i class="bi bi-stack pr-1"></i>
+                <span class="currentCard">{{ card_start }}</span>
+                <span>/</span>
+                <span>{{ card_end }}</span>
+            </div>
+        </div>
+    </div>
+    {% if cards %}
+    <div class="reviewCards d-flex justify-content-center align-items-center flex-column">
+        <div class="card py-5 shadow justify-content-center align-items-center border-0"
+            style="width: 35rem; height: 18rem;">
+            <!-- Card Repeating Unit Starts -->
+            {% for card in cards %}
+            <div class="reviewCard card-body {{ 'hidden' if loop.index != 1 }}">
+                <h1 class="question card-title text-center p-3 text-wrap" style="font-size: 60px;">{{
+                    card[1] }}</h1>
+                <h4 class="answer card-subtitle text-muted text-center text-uppercase hidden">{{ card[2] }}</h4>
+            </div>
+            {% endfor %}
+            <!-- Card Repeating Unit End -->
+        </div>
+        <div class="buttonGroup d-flex justify-content-center py-4 flex-column">
+            <div>
+                <button type="button" class="buttonAnswer btn btn-dark rounded-pill">Show Answer</button>
+            </div>
+            <!-- Buttons to choose difficulty -->
+            {% for card in cards %}
+            <div class="buttonChoose hidden">
+                <a class="btn btn-success rounded-pill buttonChooseEasy" href="/api/card/{{ card[0]}}/res/3"
+                    role="button">Easy</a>
+                <a class="btn btn-warning rounded-pill buttonChooseMedium" href="/api/card/{{ card[0]}}/res/2"
+                    role="button">Medium</a>
+                <a class="btn btn-danger rounded-pill buttonChooseHard" href="/api/card/{{ card[0]}}/res/1"
+                    role="button">Hard</a>
+            </div>
+            {% endfor %}
+            <!-- Button Repeating Unit End -->
+        </div>
+    </div>
+    {% endif %}
+    <div
+        class="reviewCardsFinished justify-content-center align-items-center {{ 'hidden' if cards }} {{ 'd-flex' if cards|length == 0}} h-100">
+        <h3 class="text-center p-3 text-wrap h-75" style="font-size: 40px;">You Have Completed Review <br />for {{
+            deck_name }}
+            Deck</h3>
+    </div>
+</div>
+{% endblock %}
+{% block custom_file %}
+{% if cards %}
+<script src="{{ url_for('static', filename='js/review.script.js') }}"></script>
+{% endif %}
+{% endblock %}
