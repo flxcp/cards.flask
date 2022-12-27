@@ -1,7 +1,10 @@
-from sqlalchemy.ext.declarative import declarative_base
-from flask_sqlalchemy import SQLAlchemy
+import os
 import datetime
 from flask_login import UserMixin
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.ext.declarative import declarative_base
+
+db_path = f'sqlite:////{os.path.abspath("db/base.sqlite3")}'
 
 Base = declarative_base()
 db = SQLAlchemy()
